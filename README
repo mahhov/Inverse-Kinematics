@@ -1,0 +1,62 @@
+Manuk Hovanesian
+23822097
+Windows 7
+source code inside submitted file "example_01.cpp"
+c++ tested on my computer through visual studio 2010, and hive machines via make
+does not use external libraries (e.g. eigen)
+code snippit for inverting 3x3 matrices edited from "http://stackoverflow.com/questions/983999/simple-3x3-matrix-inverse-code-c"
+
+
+bonus features:
+
+1) control camera with mouse
+2) modify path with mouse (or arrows,.)
+3) randomize arm positions
+4) arbitrary number/length of arms
+5) you can modify input.txt as the program is runninng! (just press r to apply changes)
+
+
+controls:
+
+1) s -> toggles flat/smooth shading
+2) w -> toggles wireframe/solid
+3) q -> exits
+4) space -> begins/pauses/resumes (the program begins paused, press space initially when ready to begin)
+5) r -> restarts to initial configuration and resets path (if input file has been modified, will apply the changes)
+6) t -> toggles auto-rotates camera (horizontally)
+7) o -> randomizes arm position
+8) i -> enters "unending-mode" where random points will continuosly be added to the end of the path
+9) c -> toggles displaying/hiding the path
+10) arrow keys -> move path (horizontally)
+11), and . -> move path (vertically)
+12)shift + left mouse -> move path (horizontally)
+13)shift + right mouse -> move path (vertically)
+14)left mouse -> rotate camera
+15)middle mouse -> zoom camera
+16)right mouse -> pan camera
+17)+ (or =) and - -> speed up/down
+
+
+input file:
+
+1) first line -> first number determines how many arm pieces, following numbers determine length of each
+2) second line -> first number determines how "key" path points you have, second number determines how many path points to add in between consequtive "key" points (via linear interpolation)
+3) following lines -> x y z coordinates of each "key" path point
+
+
+algorithm used:
+
+1) compute Jacobian
+2) compute pesuedo inverse via J+ = J^T * (J * J^T)^-1
+3) find ratio of parameter changes via J+ * (goal - current)
+4) normalize and apply changes (if it improves position, otherwise use smaller step size)
+
+
+to run:
+
+1) either open the .sln in visual studio and run
+2) or on linux, type "make", then "./as1 input.txt .1 .0005 .015" (just an example)
+3) first argument is input file describing arms and path
+4) second argument is "tolerance" (how close our endpoint has to be to path), good value is around .1
+5) third argument is "step size" (rouch measure how much parameters change per jacobian), good value is around .0005.
+6) fourth argument is "default speed" (roughly, how fast animation occurs), good value is between .015 to .09. speed can be changed later by pressing +/-/=.
